@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+    mysql-query-tmc:
+        image: mysql:8.0.31-oracle
+        container_name: "mysql-query-tmc"
+        ports:
+            - 3307:3306
+        volumes:
+            - tmc-querydb:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=P@ssw0rd
+            - MYSQL_USER=admin-query
+            - MYSQL_DATABASE=tmc-query
+            - MYSQL_PASSWORD=P@ssw0rd
+        networks:
+            - tmc-backend
+
+    mysql-command-tmc:
+        image: mysql:8.0.31-oracle
+        container_name: "mysql-command-tmc"
+        ports:
+            - 3308:3306
+        volumes:
+            - tmc-commanddb:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=P@ssw0rd
+            - MYSQL_USER=admin-command
+            - MYSQL_DATABASE=tmc-command
+            - MYSQL_PASSWORD=P@ssw0rd
+        networks:
+            - tmc-backend
+
+    rabbitmq-tmc:
+        image: rabbitmq:3.12-management-alpine
+        container_name: 'rabbitmq-tmc'
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        volumes:
+            - tmc-rabbitmq-data:/var/lib/rabbitmq
+            - tmc-rabbitmq-log:/var/log/rabbitmq
+        networks:
+            - tmc-backend
+
+networks:
+    tmc-backend:
+        driver: bridge
+
+volumes:
+    tmc-querydb:
+    tmc-commanddb:
+    tmc-rabbitmq-data:
+    tmc-rabbitmq-log:
