@@ -11,22 +11,31 @@
 
 ## Installation
 
-1. **Start Docker Compose**  
+1. **Install Dependencies**  
+   Use Composer to install the project dependencies:
+   ```bash
+   composer install
+   ```
+2. **Configure Environment Variables**  
+   Copy the `.env` file to the project.  
+   <br>
+3. **Start Docker Compose**  
    Run the following command to start the Docker containers:
    ```bash
    docker compose up -d
-2. **Run Migrations**  
+   ```
+4. **Run Migrations**  
    Execute the database migrations:
     ```bash
    php artisan migrate
-   php artisan migrate:fresh --database=mysql_query --path=database/migrations/query
+   php artisan migrate --database=mysql_query --path=database/migrations/query
    ```
-3. **Start the Queue Worker**  
+5. **Start the Queue Worker**  
    Launch the Laravel development server:
    ```bash
    php artisan serve
    ```
-4. **Start the Development Server**  
+6. **Start the Development Server**  
    Start the queue worker for RabbitMQ:
    ```bash
    php artisan queue:work rabbitmq
